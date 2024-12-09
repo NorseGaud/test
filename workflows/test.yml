@@ -1,0 +1,22 @@
+name: issue-10925
+on:
+  workflow_dispatch:
+jobs:
+  tests:
+    name: test
+    runs-on: ['nathan-local']
+    strategy:
+      fail-fast: false
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Set Xcode version and list iOS simulators
+        run: |
+          sudo xcode-select -s /Applications/Xcode_16.1.app/Contents/Developer
+          echo "Listing iOS simulators"
+          xcrun simctl list devices --json
+          #export SIMULATOR_VERSION="com.apple.CoreSimulator.SimRuntime.iOS-18-1"
+          #export SIMULATOR_NAME="iPad Pro 13-inch (M4)"
+          #export UITEST_IOSDEVICE_ID=$(xcrun simctl list -j | jq -r --arg sim "$SIMULATOR_VERSION" --arg name "$SIMULATOR_NAME" '.devices[$sim] | .[] | select(.name==$name) | .udid')
+          #xcrun simctl boot $UITEST_IOSDEVICE_ID
+          #sleep 300
